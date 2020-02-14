@@ -1,13 +1,64 @@
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+  monospace;
+}
+.vertical-timeline {
+  padding: 2em 1em!important;
+  background-color: #888588;
+}
+
+* {
+  text-align: center;
+}
+
+.background-blur {
+  filter: blur(3px)
+}
+
+
+.modal-react {
+  color: white;
+ /*display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  background-color: rgba(0,0,0, 0.7);
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  top: 0px;
+  left: 0px;
+  animation: ease-in;
+  animation-timing-function: cubic-bezier(0.3, 0.27, 0.07, 1.64);
+  animation-duration: 0.4s;
+}
+
+.modal-react >div {
+  background: linear-gradient(#1b82e7, dodgerblue);
+  width: 30%;
+  height: 400px;
+  margin: 0 auto;
+  box-sizing: border-box;
+  padding: 20px;
+  border-radius: 20px;
+  min-width: 300px;
+}
+
+.modal-react input {
+  height: 40px;
+  margin: 5px;
+  border-radius: 2px;
+  min-width: 70px;
+}
+
+#root {
+  z-index: 1;
 }
