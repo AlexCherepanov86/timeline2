@@ -1,82 +1,54 @@
 import React, { Component } from 'react';
 import { Formik } from 'formik';
 import {connect} from "react-redux";
+import { useFormik } from 'formik';
 
-class ModalForm extends Component {
+//class ModalForm extends Component {
 
+    //render() {
+        const SignupForm = () => {
+            //const {user} = this.props.user;
+            //const name = this.props.user.name;
+            const formik = useFormik({
+                initialValues: {
+                    firstName: {},
+                    lastName: '',
+                    email: '',
+                },
+                //validate,
+                onSubmit: values => {
+                    alert(JSON.stringify(values, null, 2));
+                },
+            });
 
-//const modalForm = () => (
-    render(){
-        const {user} = this.props.user;
+            return (
 
-        return(
-            <Formik
-                initialValues={{
-                     name: "{user:name}",
-                    // name: {name},
-                    // surname: {surname},
-                    // time: {time},
-                    // position: {position},
-                }}
-                // validate={values => {
-                //     const errors = {};
-                //     if (!values.email) {
-                //         errors.email = 'Required';
-                //     } else if (
-                //         !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
-                //     ) {
-                //         errors.email = 'Invalid email address';
-                //     }
-                //     return errors;
-                // }}
-                onSubmit={(values, { setSubmitting }) => {
-                    setTimeout(() => {
-                        alert(JSON.stringify(values, null, 2));
-                        setSubmitting(false);
-                    }, 400);
-                }}
-            >
-                {({
-                      values,
-                      errors,
-                      touched,
-                      handleChange,
-                      handleBlur,
-                      handleSubmit,
-                      isSubmitting,
-                      /* and other goodies */
-                  }) => (
-                    <form onSubmit={handleSubmit}>
-                        <input
-                            type="text"
-                            name="name"
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            value={user.name}
-                            placeholder="Имя"
-                        />
-                        {errors.email && touched.email && errors.email}
-                        <input
-                            type="text"
-                            name="surname"
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            value={user.surname}
-                            placeholder="Фамилия"
-                        />
-                        {errors.password && touched.password && errors.password}
-                        <button type="submit" disabled={isSubmitting}>
-                            Submit
-                        </button>
-                    </form>
-                )}
-            </Formik>
-        )
+                <form onSubmit={formik.handleSubmit}>
+                    <label htmlFor="firstName">First Name</label>
+                    <input
+                        id="firstName"
+                        name="firstName"
+                        type="text"
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        value={formik.values.firstName}
+                    />
+                    {formik.errors.firstName ? <div>{formik.errors.firstName}</div> : null}
+                    <label htmlFor="lastName">Last Name</label>
+                    <input
+                        id="lastName"
+                        name="lastName"
+                        type="text"
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        value={formik.values.lastName}
+                    />
+                    {formik.errors.lastName ? <div>{formik.errors.lastName}</div> : null}
+                    <button type="submit">Submit</button>
+                </form>
+            )
+
     }
-
-//);
-
-}
 
 function mapStateToProps(state) {
     const {user} = state;
@@ -85,11 +57,6 @@ function mapStateToProps(state) {
     }
 }
 
-// const mapStateToProps = state => {
-//     return {
-//         user: state.user
-//     }
-// }
-
-const connectedModalForm = connect(mapStateToProps)(ModalForm);
+const connectedModalForm = connect(mapStateToProps)(SignupForm);
 export default connectedModalForm;
+//export default SignupForm;

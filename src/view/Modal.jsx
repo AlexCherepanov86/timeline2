@@ -1,50 +1,23 @@
-import ReactDOM from 'react-dom'
 import React from 'react';
+import TimeComponent from "./TimeKeeper";
+import ModalForm from "./Form";
+import connect from 'react-redux/es/connect/connect';
 
 
 class Modal extends React.Component{
-    componentDidMount() {
-        /* create a div to attach to body
-        this is so that you have somewhere to house the component to render to
-        this is so that the modal is not rendered to the same root div as the parent */
-        this.modalTarget =  document.createElement('div')
-
-        /*add the regular modal class
-        because the component is rendered to a different root, this means you won't have issues with z-index */
-        this.modalTarget.className = 'modal-react';
-
-        /* add div to body manually, very un-react like
-        this is so that the renderDOM can replace the div with the component */
-        document.body.appendChild(this.modalTarget)
-        this._render() //adds div to modal
-    }
-
-    componentWillUpdate() {
-        //re-render component
-        this._render();
-    }
-
-    componentWillUnmount() {
-        ReactDOM.unmountComponentAtNode(this.modalTarget) //removes component
-        document.body.removeChild(this.modalTarget) //removes root div that housed the component
-    }
-
-
-
-    _render() {
-        /* adds to virtual dom
-        props.childern is whatever html is inside the component (the modal) */
-        ReactDOM.render(<div>{this.props.children}</div>, this.modalTarget)
-    }
-
     render() {
         /* returns no render at start (no item)
         a component will still mount it just won't have anything rendered when using null
         this means you can still utilize all the component methods including re-rendering contents
         later you can render in the props.children */
-        return null
+        return (
+          <div className='modal-react'>
+            <div>{this.props.children}</div>
+          </div>
+        )
     }
 }
+
 
 
 class ModalView extends React.Component{
@@ -53,10 +26,7 @@ class ModalView extends React.Component{
         super(props);
         this.state = {
             modal: false,
-            blur: false,
-            name: "John",
-            surname: "Connor",
-            value: "123"
+            blur: false
         }
         this.handleModal = this.handleModal.bind(this);
         this.handleChange = this.handleChange.bind(this);
@@ -67,7 +37,8 @@ class ModalView extends React.Component{
         this.setState({
             modal: !this.state.modal,
             blur: !this.state.blur
-        })
+        });
+      //this.props.dispatch({ type: 'MODAL_BLUR_TOGGLE' })
     }
 
     handleChange(event) {
@@ -81,31 +52,30 @@ class ModalView extends React.Component{
 
     render() {
         //since the modal is a container, onclick must reside in the button
-        const blur = this.state.blur ?  'background-blur' : ''
+        const user = this.props.user;
         const modal = this.state.modal ? (<Modal>
-            <form onSubmit={this.handleSubmit}>
-
-            <h2>Редактирование</h2>
-                <lable>
-                    Имя, Фамилия:
-            <input type="text" value={this.state.name} onChange={this.handleChange} placeholder="Имя"/>
-            <input type="text" value={this.state.surname} onChange={this.handleChange} placeholder="Фамилия"/>
-                </lable>
-            <input type="submit" value="Send" />
+            <TimeComponent
+                pass={user}
+            />
+            <ModalForm/>
             <input type="button" value="cancel" onClick={this.handleModal} />
-
-            </form>
-
         </Modal>) : null;
 
         return (
-            <div className={blur}>
+            <div>
                 {modal}
                 <input value="Edit" type="button" style={{color: 'black'}} onClick={this.handleModal}/>
             </div>)
     }
 }
 
-ReactDOM.render(<ModalView/>, document.getElementById('root'))
+function mapStateToProps(state) {
+    const {user} = state;
+    return {
+        user
+    }
+}
 
-export default ModalView;
+
+const connectedModalView = connect(mapStateToProps)(ModalView);
+export default connectedModalView;

@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import TimeKeeper from 'react-timekeeper';
-import {connect} from "react-redux";
 
-function TimeComponent(){
-    const [time, setTime] = useState('12:30pm')
-    const [showTime, setShowTime] = useState(true)
+
+function TimeComponent(props){
+    const [time, setTime] = useState(props.pass.user.time)
+    const [showTime, setShowTime] = useState(false)
 
     return (
         <div>
@@ -14,6 +14,7 @@ function TimeComponent(){
                 onChange={(newTime) => setTime(newTime.formatted12)}
                 onDoneClick={() => setShowTime(false)}
                 switchToMinuteOnHourSelect
+
             />
             }
             <span>Time is {time}</span>
@@ -25,11 +26,4 @@ function TimeComponent(){
 
 }
 
-const mapStateToProps = store => {
-    return {
-        user: store.user
-    }
-}
-
-const connectedTimeComponent = connect(mapStateToProps)(TimeComponent);
-export default connectedTimeComponent;
+export default TimeComponent;
